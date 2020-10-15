@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
+require('dotenv').config();
 const config = require('./config');
 
 const errorHandler = require('./middleware/error')
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-mongoose.connect(config.mongouri, config.mongoOption, err => {
+mongoose.connect(process.env.mongouri, config.mongoOption, err => {
     if (err) {
       console.log(err);
     }
@@ -27,9 +28,9 @@ app.use('/api/tags',tag)
 
 app.use(errorHandler)
 
-const port = config.port || 5000
+const port = process.env.PORT || 5000
 
 
-app.listen(config.port, () =>
-  console.log(`server is up at port ${config.port}`)
+app.listen(port, () =>
+  console.log(`server is up at port ${port}`)
 );
